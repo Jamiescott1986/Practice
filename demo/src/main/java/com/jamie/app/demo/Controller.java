@@ -8,35 +8,30 @@ import com.jamie.app.demo.Vehicle;
 @RequestMapping(path = "/database")
 public class Controller {
     @Autowired
-
-    private Repo repo;
+    private Service service;
 
     @PostMapping(path = "/vehicle")
     public String saveVehicle(@RequestBody Vehicle vehicle) {
-        repo.save(vehicle);
-        return "Saved";
+
+        return service.saveVehicle(vehicle);
     }
 
     @GetMapping(path = "/vehicle")
     public @ResponseBody Iterable<Vehicle> getAllVehicles() {
-        return repo.findAll();
+
+        return service.getAllVehicles();
     }
 
     @DeleteMapping(path = "/vehicle/{vehicleNumber}")
     public String deleteVehicle(@PathVariable int vehicleNumber){
-        Vehicle deleteVehicle = repo.findById(vehicleNumber).get();
-        repo.delete(deleteVehicle);
-        return "Deleted Vehicle";
+
+        return service.deleteVehicle(vehicleNumber);
     }
 
     @PutMapping(path = "/vehicle/{vehicleNumber}")
     public String updateVehicle(@PathVariable int vehicleNumber, @RequestBody Vehicle vehicle) {
-        Vehicle updateVehicle = repo.findById(vehicleNumber).get();
-        updateVehicle.setVehicleNumber(vehicle.getVehicleNumber());
-        updateVehicle.setSupplyGroupCode(vehicle.getSupplyGroupCode());
-        updateVehicle.setNotionalDeliveryDate(vehicle.getNotionalDeliveryDate());
-        repo.save(updateVehicle);
-        return "Updated vehicle details";
+
+        return service.updateVehicle(vehicleNumber, vehicle);
     }
 }
 
